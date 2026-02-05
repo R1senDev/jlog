@@ -1,0 +1,26 @@
+[build-system]
+requires = ['setuptools>=61.0', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'jlog'
+version = '0.1.0'
+description = 'A lightweight, colorful logging library with gradient text support and hierarchical offsetting.'
+readme = 'README.md'
+authors = [
+    {name = 'R1senDev', email = 'ris3nanderson@gmail.com'}
+]
+license = {text = 'MIT'}
+keywords = ['library', 'python']
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+]
+dependencies = [
+    'colorama==0.4.6',
+]
+
+[project.urls]
+Homepage = 'https://github.com/R1senDev/jlog'
+Repository = 'https://github.com/R1senDev/jlog'
