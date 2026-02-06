@@ -1,0 +1,6 @@
+class Filler:
+
+    @classmethod
+    def whitespace(cls, offset: int, offset_size: int) -> str: ...
+    @classmethod
+    def dash_markers(cls, offset: int, offset_size: int) -> str: ...

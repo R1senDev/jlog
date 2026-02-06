@@ -1,0 +1,16 @@
+class ColorPoint:
+
+    def __init__(self, r: int, g: int, b: int, pos: float) -> None: ...
+
+    @property
+    def color_tuple(self) -> tuple[int, int, int]: ...
+
+
+class Gradient:
+
+    def __init__(self, *points: ColorPoint) -> None: ...
+
+    @property
+    def points(self) -> list[ColorPoint]: ...
+
+    def get_color_in_position(self, pos: float) -> tuple[int, int, int]: ...
