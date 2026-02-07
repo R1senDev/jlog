@@ -44,7 +44,8 @@ class JLog:
     def string(
             self,
             *values:       object,
-            offset_once:   bool = False,
+            offset_once:   bool               = False,
+            offset_after:  int                = 0,
             fore_gradient: Optional[Gradient] = None,
             back_gradient: Optional[Gradient] = None
         ) -> None: ...

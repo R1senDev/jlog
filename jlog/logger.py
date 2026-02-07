@@ -158,7 +158,8 @@ class JLog:
     def string(
             self,
             *values:       object,
-            offset_once:   bool = False,
+            offset_once:   bool               = False,
+            offset_after:  int                = 0,
             fore_gradient: Optional[Gradient] = None,
             back_gradient: Optional[Gradient] = None
         ) -> None:
@@ -167,6 +168,9 @@ class JLog:
 
         Args:
             offset_once (bool, optional): temporarily adds a single offset unit to the output. Defaults to False.
+            offset_once (int, optional): a number of offset units to add to the next lines. Defaults to 0.
+            fore_gradient (Gradient, optional): a gradient to apply to the output's characters.
+            back_gradient (Gradient, optional): a gradient to apply to the output's background.
 
         Examples:
             ```python
@@ -184,6 +188,8 @@ class JLog:
         )
 
         self._cast(string)
+        
+        self.offset(offset_after)
     
     def gap(self, size: int = 1) -> None:
         '''
