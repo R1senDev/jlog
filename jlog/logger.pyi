@@ -52,10 +52,10 @@ class JLog:
     def gap(self, size: int = 1) -> None: ...
     def divider(
             self,
-            sequence:      str = '=',
-            width:         int = 25,
-            margin_top:    int = 0,
-            margin_bottom: int = 1
+            sequence:     str = '=',
+            width:        int = 25,
+            margin_above: int = 0,
+            margin_below: int = 1
         ) -> None: ...
     def reset_colors(self, fore: bool = True, back: bool = True) -> None: ...
     def close_all(self, ignore_ttys: bool = True) -> None: ...
