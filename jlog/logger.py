@@ -1,7 +1,6 @@
 from colorama import init
-from typing   import Callable, Literal, Optional
+from typing   import TextIO, Callable, Literal, Optional
 from string   import whitespace
-from io       import TextIOBase
 from re       import sub
 
 from .auxiliary import Filler
@@ -16,7 +15,7 @@ class JLog:
 
     def __init__(
             self,
-            *buffers:      TextIOBase,
+            *buffers:      TextIO,
             offset_size:   int = 2,
             offset_filler: Callable[[int, int], str] = Filler.whitespace,
             line_term:     str = '\r\n'
