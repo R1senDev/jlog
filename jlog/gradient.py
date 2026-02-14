@@ -6,8 +6,23 @@
 
 
 class ColorPoint:
+    '''
+    An anchor point of the gradient.
+    '''
 
     def __init__(self, r: int, g: int, b: int, pos: float) -> None:
+        '''
+        Define an anchor point of the gradient.
+
+        Args:
+            r (int): red component of the color.
+            g (int): green component of the color.
+            b (int): blue component of the color.
+            pos (float): a position of the anchor point. Recommended: 0.0 <= pos <= 1.0.
+
+        Raises:
+            ValueError: raised if one or many color components are invalid (`not in range(0, 256)`).
+        '''
 
         if not (0 <= r <= 255) or not (0 <= g <= 255) or not (0 <= b <= 255):
             raise ValueError('color components cannot be lesser than 0 or greater than 255')
@@ -19,12 +34,25 @@ class ColorPoint:
 
     @property
     def color_tuple(self) -> tuple[int, int, int]:
+        '''
+        `(r, g, b)` tuple.
+        '''
         return self.r, self.g, self.b
 
 
 class Gradient:
+    '''
+    A gradient class. That's it.
+    '''
 
     def __init__(self, *points: ColorPoint) -> None:
+        '''
+        Creates a new gradent.
+
+        Raises:
+            ValueError: raised if no points are passed.
+        '''
+
         if not points:
             raise ValueError('gradient should contain at least one ColorPoint')
         
@@ -38,9 +66,20 @@ class Gradient:
 
     @property
     def points(self) -> list[ColorPoint]:
+        '''
+        The list of all anchor points of this gradient.
+        '''
+
         return self._points
 
     def get_color_in_position(self, pos: float) -> tuple[int, int, int]:
+        '''
+        Calculates and returns a color in any position of the gradient.
+
+        Args:
+            pos (float): target position.
+        '''
+
         lr: tuple[list[ColorPoint], list[ColorPoint]] = ([], [])
 
         for point in self.points:

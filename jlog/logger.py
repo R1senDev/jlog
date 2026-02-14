@@ -1,7 +1,6 @@
 from colorama import init
-from typing   import Callable, Literal, Optional
+from typing   import TextIO, Callable, Literal, Optional
 from string   import whitespace
-from io       import TextIOBase
 from re       import sub
 
 from .auxiliary import Filler
@@ -10,17 +9,28 @@ from ._consts   import COLORS_SCHEME_BASE, COLORS_SCHEME_256B, COLORS_SCHEME_TRC
 
 
 class JLog:
+    '''
+    Main logger class.
+    '''
 
     _init_is_useless = False
     _color_init_ok   = False
 
     def __init__(
             self,
-            *buffers:      TextIOBase,
+            *buffers:      TextIO,
             offset_size:   int = 2,
             offset_filler: Callable[[int, int], str] = Filler.whitespace,
             line_term:     str = '\r\n'
         ) -> None:
+        '''
+        Create a new logger.
+
+        Args:
+            offset_size (int, optional): controls the size of the single offset unit. Defaults to 2.
+            offset_filler ((int, int) -> str, optional): a function to create an offset pattern. Defaults to Filler.whitespace.
+            line_term (str, optional): line terminator. Defaults to '\\r\\n'.
+        '''
 
         queued_messages: list[str] = []
 
@@ -154,12 +164,14 @@ class JLog:
             jl.string('All set!')
             ```
         '''
+
         self.current_offset += amount
 
     def string(
             self,
             *values:       object,
-            offset_once:   bool = False,
+            offset_once:   bool               = False,
+            offset_after:  int                = 0,
             fore_gradient: Optional[Gradient] = None,
             back_gradient: Optional[Gradient] = None
         ) -> None:
@@ -168,6 +180,9 @@ class JLog:
 
         Args:
             offset_once (bool, optional): temporarily adds a single offset unit to the output. Defaults to False.
+            offset_once (int, optional): a number of offset units to add to the next lines. Defaults to 0.
+            fore_gradient (Gradient, optional): a gradient to apply to the output's characters.
+            back_gradient (Gradient, optional): a gradient to apply to the output's background.
 
         Examples:
             ```python
@@ -185,6 +200,8 @@ class JLog:
         )
 
         self._cast(string)
+        
+        self.offset(offset_after)
     
     def gap(self, size: int = 1) -> None:
         '''
@@ -201,21 +218,39 @@ class JLog:
             jl.string('Initializing...')
             ```
         '''
+
         self._cast(self._line_term * size, False)
 
     def divider(
             self,
-            sequence:      str = '=',
-            width:         int = 25,
-            margin_top:    int = 0,
-            margin_bottom: int = 1
+            sequence:     str = '=',
+            width:        int = 25,
+            margin_above: int = 0,
+            margin_below: int = 1
         ) -> None:
+        '''
+        Draws a divider.
+
+        Args:
+            sequence (str, optional): a pattern to repeat. Defaults to '='.
+            width (int, optional): a number of characters. Defaults to 25.
+            margin_above (int, optional): a number of vertical gaps (empty lines) to add above the divider. Defaults to 0.
+            margin_below (int, optional): a number of vertical gaps (empty lines) to add below the divider. Defaults to 1.
+        '''
+
         divider = ''.join(sequence[i % len(sequence)] for i in range(width))
-        self.gap(margin_top)
+        self.gap(margin_above)
         self.string(divider)
-        self.gap(margin_bottom)
+        self.gap(margin_below)
 
     def reset_colors(self, fore: bool = True, back: bool = True) -> None:
+        '''
+        Resets currently applied character modifiers.
+
+        Args:
+            fore (bool, optional): if set, resets the foreground modifiers. Defaults to True.
+            back (bool, optional): if set, resets the background modifiers. Defaults to True.
+        '''
         if not JLog._color_init_ok:
             return
         
@@ -228,6 +263,13 @@ class JLog:
         self._cast(string, nl = True, do_subs = 'no', tty_only = True)
 
     def close_all(self, ignore_ttys: bool = True) -> None:
+        '''
+        Closes all linked output streams.
+
+        Args:
+            ignore_ttys (bool, optional): if set, the call won't affect interactive sessions. Defaults to True.
+        '''
+
         for buffer in self._buffers:
             if buffer.isatty() and ignore_ttys:
                 continue

@@ -44,17 +44,18 @@ class JLog:
     def string(
             self,
             *values:       object,
-            offset_once:   bool = False,
+            offset_once:   bool               = False,
+            offset_after:  int                = 0,
             fore_gradient: Optional[Gradient] = None,
             back_gradient: Optional[Gradient] = None
         ) -> None: ...
     def gap(self, size: int = 1) -> None: ...
     def divider(
             self,
-            sequence:      str = '=',
-            width:         int = 25,
-            margin_top:    int = 0,
-            margin_bottom: int = 1
+            sequence:     str = '=',
+            width:        int = 25,
+            margin_above: int = 0,
+            margin_below: int = 1
         ) -> None: ...
     def reset_colors(self, fore: bool = True, back: bool = True) -> None: ...
     def close_all(self, ignore_ttys: bool = True) -> None: ...
