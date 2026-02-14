@@ -39,7 +39,8 @@ class JLog:
         self._offset_size      = offset_size
         self._line_term        = line_term
 
-        self.current_offset = 0
+        self.current_offset            = 0
+        self._saved_offset: int | None = None
         
         if not JLog._init_is_useless:
             try:
@@ -166,6 +167,22 @@ class JLog:
         '''
 
         self.current_offset += amount
+
+    def save_offset(self) -> None:
+        '''
+        Saves current offset into the internal buffer.
+        '''
+
+        self._saved_offset = self.current_offset
+
+    def restore_offset(self) -> None:
+        '''
+        Restores the offset from the internal buffer.  
+        Does nothing if wasn't previously saved.
+        '''
+        if not self._saved_offset is not None:
+            return None
+        self.current_offset = self._saved_offset
 
     def string(
             self,

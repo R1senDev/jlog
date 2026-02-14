@@ -4,7 +4,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'jlog'
-version = '0.1.2'
+version = '0.1.3'
 description = 'A lightweight, colorful logging library with gradient text support and hierarchical offsetting.'
 readme = 'README.md'
 authors = [
