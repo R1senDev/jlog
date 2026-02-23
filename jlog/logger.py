@@ -39,8 +39,8 @@ class JLog:
         self._offset_size      = offset_size
         self._line_term        = line_term
 
-        self.current_offset            = 0
-        self._saved_offset: int | None = None
+        self.current_offset           = 0
+        self._offset_stack: list[int] = []
         
         if not JLog._init_is_useless:
             try:
@@ -170,19 +170,19 @@ class JLog:
 
     def save_offset(self) -> None:
         '''
-        Saves current offset into the internal buffer.
+        Saves current offset into the internal stack.
         '''
 
-        self._saved_offset = self.current_offset
+        self._offset_stack.append(self.current_offset)
 
     def restore_offset(self) -> None:
         '''
-        Restores the offset from the internal buffer.  
+        Restores the offset from the internal stack.  
         Does nothing if wasn't previously saved.
         '''
-        if not self._saved_offset is not None:
+        if not self._offset_stack:
             return None
-        self.current_offset = self._saved_offset
+        self.current_offset = self._offset_stack.pop()
 
     def string(
             self,
